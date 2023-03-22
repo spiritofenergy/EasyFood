@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">EasyFood</string>
+
+    <string name="favorite">Favorite</string>
+    <string name="home">Home</string>
+    <string name="category">Category</string>
+    <string name="categories">Categories</string>
+    <string name="search_home">Home</string>
+    <string name="like_to_eat">Like to eat</string>
+    <string name="what_would_you_like_to_eat">What would you like to eat?</string>
+    <string name="over_popular_items">Over popular items</string>
+</resources>
