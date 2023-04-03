@@ -1,26 +1,25 @@
 package com.kodex.easyfood.activites
 
-import android.app.Activity
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
-import androidx.navigation.ui.NavigationUI
-import androidx.viewbinding.ViewBinding
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.kodex.easyfood.R
 import com.kodex.easyfood.databinding.ActivityMealBinding
-import com.kodex.easyfood.fragments.HomeFragment
+import com.kodex.easyfood.db.MealDatabase
 import com.kodex.easyfood.pojo.Meal
 import com.kodex.easyfood.viewmodel.MealViewModel
 
-
+import com.kodex.easyfood.utils.Constants.MEAL_ID
+import com.kodex.easyfood.utils.Constants.MEAL_NAME
+import com.kodex.easyfood.utils.Constants.MEAL_THUMB
+import com.kodex.easyfood.viewmodel.MealViewModelFactory
 
 class MealActivity : AppCompatActivity() {
 
@@ -36,8 +35,9 @@ class MealActivity : AppCompatActivity() {
         binding = ActivityMealBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-        mealMvvm = ViewModelProviders.of(this)[MealViewModel::class.java]
+        val mealDatabase = MealDatabase.getInstance(this)
+        val viewModelFactory = MealViewModelFactory(mealDatabase)
+        mealMvvm = ViewModelProvider(this, viewModelFactory)[MealViewModel::class.java]
 
         getMealInformationFormIntent()
 
@@ -47,6 +47,16 @@ class MealActivity : AppCompatActivity() {
         observerMealDetailsLiveData()
 
         onYoutubeImageClick()
+        onFavoriteClick()
+    }
+
+    private fun onFavoriteClick() {
+        binding.btnAddToFav.setOnClickListener {
+            mealToSave?.let {
+                mealMvvm.insertMeal(it)
+                Toast.makeText(this,"Meal saved", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun onYoutubeImageClick() {
@@ -56,19 +66,21 @@ class MealActivity : AppCompatActivity() {
         }
     }
 
+    private var mealToSave:Meal? = null
+    @SuppressLint("SetTextI18n")
     private fun observerMealDetailsLiveData() {
        mealMvvm.observerMealDetailsLiveData().observe(this
        ) { t ->
            onResponseCase()
-           val meal = t
+           mealToSave = t
 
-           Log.d("check2", "meal: ${t!!.strCategory}")
+           Log.d("check DetailsLiveData", "strCategory: ${t!!.strCategory}")
 
-           binding.tvCategory.text = "Category : ${meal!!.strCategory}"
-           binding.tvArea.text = "Area : ${meal.strArea}"
-           binding.tvInstructionSt.text = meal.strInstructions
+           binding.tvCategory.text = "Category : ${t.strCategory}"
+           binding.tvArea.text = "Area : ${t.strArea}"
+           binding.tvInstructionSt.text = t.strInstructions
 
-           youtubeLink = meal.strYoutube
+           youtubeLink = t.strYoutube.toString()
        }
     }
 
@@ -84,9 +96,9 @@ class MealActivity : AppCompatActivity() {
 
     private fun getMealInformationFormIntent() {
           val intent = intent
-            mealId = intent.getStringExtra(HomeFragment.MEAL_ID)!!
-            mealName = intent.getStringExtra(HomeFragment.MEAL_NAME)!!
-            mealThumb = intent.getStringExtra(HomeFragment.MEAL_THUMB)!!
+            mealId = intent.getStringExtra(MEAL_ID)!!
+            mealName = intent.getStringExtra(MEAL_NAME)!!
+            mealThumb = intent.getStringExtra(MEAL_THUMB)!!
         }
     private fun loadingSCase(){
         binding.progressBar.visibility = View.VISIBLE

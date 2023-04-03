@@ -6,15 +6,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kodex.easyfood.databinding.PopularItemsBinding
-import com.kodex.easyfood.pojo.CategoryList
-import com.kodex.easyfood.pojo.CategoryMeals
+import com.kodex.easyfood.pojo.MealsByCategory
 
 class MostPopularAdapter(): RecyclerView.Adapter<MostPopularAdapter.PopularMealViewHolder>() {
-        private var mealList = ArrayList<CategoryMeals>()
+        lateinit var onItemClick :((MealsByCategory)-> Unit)
+        var onLongItemClick: ((MealsByCategory)-> Unit)? = null
+        private var mealsList = ArrayList<MealsByCategory>()
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun setMeals(mutableList: ArrayList<CategoryMeals>){
-        this.mealList = mealList
+    @SuppressLint("NotifyDataSetChanged")// говорит об изменении списка
+    fun setMeals(mealsList: ArrayList<MealsByCategory>){
+        this.mealsList = mealsList
         notifyDataSetChanged()
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PopularMealViewHolder {
@@ -23,12 +24,20 @@ class MostPopularAdapter(): RecyclerView.Adapter<MostPopularAdapter.PopularMealV
 
     override fun onBindViewHolder(holder: PopularMealViewHolder, position: Int) {
         Glide.with(holder.itemView)
-            .load(mealList[position].strMealThumb)
+            .load(mealsList[position].strMealThumb)
             .into(holder.binding.imgPopularMealItem)
+
+        holder.itemView.setOnClickListener {
+            onItemClick.invoke(mealsList[position])
+        }
+
+        holder.itemView.setOnClickListener {
+            onLongItemClick?.invoke(mealsList[position])
+        }
     }
 
     override fun getItemCount(): Int {
-        return mealList.size
+        return mealsList.size
     }
         class PopularMealViewHolder( var binding: PopularItemsBinding ): RecyclerView.ViewHolder(binding.root)
 

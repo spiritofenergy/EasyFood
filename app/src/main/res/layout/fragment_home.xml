@@ -20,9 +20,9 @@
       android:id="@+id/linear_header"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginStart="@dimen/_30sdp"
-      android:layout_marginTop="@dimen/_30sdp"
-      android:layout_marginEnd="@dimen/_30sdp"
+      android:layout_marginStart="@dimen/_10sdp"
+      android:layout_marginTop="@dimen/_5sdp"
+      android:layout_marginEnd="@dimen/_5sdp"
       android:orientation="horizontal"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
@@ -64,8 +64,8 @@
       android:id="@+id/random_meal_cart"
       android:layout_width="match_parent"
       android:layout_height="@dimen/_160sdp"
-      android:layout_marginStart="@dimen/_25sdp"
-      android:layout_marginEnd="@dimen/_25sdp"
+      android:layout_marginStart="@dimen/_10sdp"
+      android:layout_marginEnd="@dimen/_10sdp"
       android:layout_marginTop="@dimen/_10sdp"
       app:cardCornerRadius="@dimen/_10sdp"
       app:cardUseCompatPadding="true"
@@ -75,10 +75,10 @@
 
       <ImageView
           android:id="@+id/img_random_meal"
-          android:layout_width="match_parent"
+          android:layout_width="470dp"
           android:layout_height="match_parent"
           android:background="@color/accent"
-          android:scaleType="centerCrop"/>
+          android:scaleType="centerCrop" />
   </androidx.cardview.widget.CardView>
 
   <TextView
@@ -98,8 +98,8 @@
       android:id="@+id/rec_view_meals_popular"
       android:layout_width="wrap_content"
       android:layout_height="@dimen/_90sdp"
-      android:layout_marginStart="@dimen/_25sdp"
-      android:layout_marginEnd="@dimen/_10sdp"
+      android:layout_marginStart="@dimen/_5sdp"
+      android:layout_marginEnd="@dimen/_5sdp"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/tv_over_popular" />
 
@@ -107,7 +107,7 @@
       android:id="@+id/tv_categories"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginTop="10dp"
+      android:layout_marginTop="@dimen/_10sdp"
       android:fontFamily="@font/myfont"
       android:text="@string/categories"
       android:textColor="@color/black"
@@ -120,8 +120,8 @@
       android:id="@+id/category_card"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginStart="25dp"
-      android:layout_marginEnd="25dp"
+      android:layout_marginStart="@dimen/_5sdp"
+      android:layout_marginEnd="@dimen/_5sdp"
       android:elevation="2dp"
       app:cardCornerRadius="10dp"
       app:cardPreventCornerOverlap="false"
