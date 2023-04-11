@@ -1,7 +1,9 @@
 package com.kodex.easyfood.fragments
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -95,6 +97,7 @@ class HomeFragment : Fragment() {
         categoriesAdapter.onItemClick = { category ->
             val intent = Intent(activity, CategoryMealsActivity::class.java)
             intent.putExtra(CATEGORY_NAME, category.strCategory)
+            Log.d("check", "Category.strCategory: \n $category.strCategory")
             startActivity(intent)
         }
     }
@@ -138,9 +141,12 @@ class HomeFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private fun onRandomMealClick() {
-        binding.randomMealCart.setOnClickListener {
-            val intent = Intent(activity, MealActivity::class.java)
+
+       binding.randomMealCart.setOnClickListener {
+           Log.d("Random click", "StrInstructions:\n ${randomMeal.strInstructions}")
+       val intent = Intent(activity, MealActivity::class.java)
             intent.putExtra(MEAL_ID, randomMeal.idMeal)
             intent.putExtra(MEAL_NAME, randomMeal.strMeal)
             intent.putExtra(MEAL_THUMB, randomMeal.strMealThumb)

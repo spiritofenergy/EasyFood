@@ -5,13 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kodex.easyfood.activites.MainActivity
 import com.kodex.easyfood.adapters.MealsAdapter
 import com.kodex.easyfood.databinding.FragmentSearchBinding
 import com.kodex.easyfood.viewmodel.HomeViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class SearchFragment : Fragment() {
@@ -42,10 +47,23 @@ class SearchFragment : Fragment() {
         binding.imgSearchArrow.setOnClickListener {searchMeals() }
 
         observeSearchedMealsLiveData()
+
+        var searchJob: Job? = null
+        binding.edSearchBox.addTextChangedListener {
+            searchJob?.cancel()
+            searchJob = lifecycleScope.launch {
+                // Вызываем модель просмотра
+                delay(500)
+                viewModel.searchMeals(searchJob.toString())
+
+            }
+
+        }
     }
 
     private fun observeSearchedMealsLiveData() {
-        viewModel.observeSearchedMealsLiveData().observe(viewLifecycleOwner, Observer { mealList ->
+        viewModel.observeSearchedMealsLiveData()
+            .observe(viewLifecycleOwner, Observer { mealList ->
             searchRecyclerViewAdapter.differ.submitList(mealList)
         })
     }

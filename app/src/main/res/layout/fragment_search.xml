@@ -35,7 +35,7 @@
 
     <ImageView
         android:id="@+id/img_search_arrow"
-        android:layout_width="@dimen/_33ssp"
+        android:layout_width="@dimen/_40ssp"
         android:layout_height="@dimen/_33ssp"
         android:src="@drawable/ic_arrow"
         app:tint="@color/g_gray"

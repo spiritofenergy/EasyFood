@@ -7,11 +7,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kodex.easyfood.databinding.ActivityCategoryMealsMainBinding
 import com.kodex.easyfood.databinding.MealItemBinding
+import com.kodex.easyfood.pojo.Category
 import com.kodex.easyfood.pojo.MealList
 import com.kodex.easyfood.pojo.MealsByCategory
 
 class CategoryMealsAdapter:RecyclerView.Adapter<CategoryMealsAdapter.CategoryMealsViewModel>() {
         private var mealsList = ArrayList<MealsByCategory>()
+    var onItemClick : ((Category) -> Unit)? = null
+
 
     @SuppressLint("NotifyDataSetChanged")
     fun  setMealsList(mealsList:List<MealsByCategory>){
